@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block title %}
+  DK's Chat App
+{% endblock %}
+
+{% block body %}
+  <h1>Welcome to DK's Chat App</h1>
+  <ul id="chatMessages">
+    {% for message in messages %}
+      <li>{{ message.displayName }}: {{ message.message }}</li>
+    {% endfor %}
+  </ul>
+  <form id="chatBoxForm">
+      <input type="text" id="chatBoxInput">
+  </form>
+{% endblock %}

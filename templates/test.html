@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+    <script src="{{ url_for('static', filename='index.js') }}"></script>
+    <title>DK's Chat App</title>
+  </head>
+  <body>
+    <h1>Hi</h1>
+    <ul id="chatMessages">
+      {% for message in messages %}
+      <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+    <form id="chatBoxForm">
+      <input type="text" id="chatBoxInput">
+    </form>
+  </body>
+</html>
