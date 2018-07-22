@@ -1,17 +1,21 @@
 {% extends "layout.html" %}
 
+{% block head %}
+<script src="{{ url_for('static', filename='index.js') }}"></script>
+{% endblock %}
+
 {% block title %}
   DK's Chat App
 {% endblock %}
 
 {% block body %}
   <h1>Welcome to DK's Chat App</h1>
-  <ul id="chatMessages">
-    {% for message in messages %}
-      <li>{{ message.displayName }}: {{ message.message }}</li>
+  <ul id="chatRooms">
+    {% for key, value in chat.items() %}
+      <a href="{{ url_for('channel', room=key) }}"><li data-room="{{ key }}">{{ key }}</li></a>
     {% endfor %}
   </ul>
-  <form id="chatBoxForm">
-      <input type="text" id="chatBoxInput">
+  <form id="channelForm" method="post" action="{{ url_for('createChannel') }}">
+      <input type="text" id="channelInput" name="channelInput">
   </form>
 {% endblock %}

@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block head %}
+<script src="{{ url_for('static', filename='channel.js') }}"></script>
+{% endblock %}
+
+{% block title %}
+  {{ title }}
+{% endblock %}
+
+{% block body %}
+<h1>Welcome to DK's Chat App</h1>
+<ul id="chatMessages">
+  {% for message in chat %}
+    <li>{{ message.displayName }}: {{ message.message }}</li>
+  {% endfor %}
+</ul>
+<form id="chatBoxForm">
+    <input type="text" id="chatBoxInput">
+</form>
+{% endblock %}
