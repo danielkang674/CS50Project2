@@ -10,12 +10,16 @@
 
 {% block body %}
   <h1>Welcome to DK's Chat App</h1>
-  <ul id="chatRooms">
+  {% if chat %}
+  <h2>Join a channel!</h2>
+  <ul id="chatRooms" class="list-group">
     {% for key, value in chat.items() %}
-      <a href="{{ url_for('channel', room=key) }}"><li data-room="{{ key }}">{{ key }}</li></a>
+      <a href="{{ url_for('channel', room=key) }}"><li class="list-group-item" data-room="{{ key }}">{{ key }}</li></a>
     {% endfor %}
   </ul>
-  <form id="channelForm" method="post" action="{{ url_for('createChannel') }}">
-      <input type="text" id="channelInput" name="channelInput">
+  {% endif %}
+  <h2>Create a channel!</h2>
+  <form id="channelForm" method="post" action="{{ url_for('createChannel') }}" class="form-group">
+      <input type="text" id="channelInput" name="channelInput" placeholder="channel name" class="form-control">
   </form>
 {% endblock %}

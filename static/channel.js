@@ -2,8 +2,9 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
   // Check for display name
   let displayName;
+  let $container = document.querySelector('div.container');
   if(!localStorage.getItem('displayName')){
-    document.body.innerHTML = '';
+    $container.innerHTML = '';
     let $displayNameForm = document.createElement('form');
     let $displayNameInput = document.createElement('input');
     const h1 = document.createElement('h1');
@@ -16,31 +17,63 @@ document.addEventListener('DOMContentLoaded', ()=>{
       localStorage.setItem('displayName', $displayNameInput.value);
       window.location.reload(true);
     }
-    document.body.appendChild(h1);
-    document.body.appendChild($displayNameForm);
-  }
+    $container.appendChild(h1);
+    $container.appendChild($displayNameForm);
+  } else {
     displayName = localStorage.getItem('displayName');
     // Connect to websocket
     var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
 
     // When connected, configure chat box
     socket.on('connect', ()=>{
-
-      socket.emit('join', {"displayName": displayName})
+      // join a room
+      socket.emit('join', {"displayName": displayName});
 
       // input text should submit an emit event
-      let $chatBoxForm = document.querySelector('#chatBoxForm');
       let $chatBoxInput = document.querySelector('#chatBoxInput');
-      $chatBoxForm.onsubmit = () =>{
+      let $chatBoxBtn = document.querySelector('#chatBoxBtn');
+      $chatBoxBtn.onclick = () =>{
         const message = $chatBoxInput.value;
         socket.emit('post message', {"message": message, "displayName": displayName});
+        $chatBoxInput.value = '';
       }
+      $chatBoxInput.addEventListener('keyup', (event)=>{
+        // don't submit form
+        event.preventDefault();
+        // check if enter key
+        if(event.key === "Enter"){
+          $chatBoxBtn.click();
+        }
+      });
+
+      // When disconnected
+      socket.on('disconnect', ()=>{
+        socket.emit('leave', {"displayName": displayName});
+      });
     });
+
+
 
     // When a new message is posted, add to ul
     socket.on('all messages', data =>{
-      const li = document.createElement('li');
-      li.innerHTML = `${data.displayName}: ${data.message}`;
-      document.querySelector('#chatMessages').appendChild(li);
+      const div = document.createElement('div');
+      div.innerHTML = `${data.displayName}: ${data.message}`;
+      div.className = 'alert alert-info';
+      document.querySelector('#chat-window').appendChild(div);
     });
+
+    socket.on('joined room', data =>{
+      const div = document.createElement('div');
+      div.innerHTML = data;
+      div.className = 'alert alert-primary';
+      document.querySelector('#chat-window').appendChild(div);
+    });
+
+    socket.on('left room', data =>{
+      const div = document.createElement('div');
+      div.innerHTML = data;
+      div.className = 'alert alert-danger';
+      document.querySelector('#chat-window').appendChild(div);
+    });
+  }
 });

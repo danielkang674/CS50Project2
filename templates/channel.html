@@ -2,6 +2,7 @@
 
 {% block head %}
 <script src="{{ url_for('static', filename='channel.js') }}"></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 {% endblock %}
 
 {% block title %}
@@ -9,13 +10,14 @@
 {% endblock %}
 
 {% block body %}
-<h1>Welcome to DK's Chat App</h1>
-<ul id="chatMessages">
-  {% for message in chat %}
-    <li>{{ message.displayName }}: {{ message.message }}</li>
-  {% endfor %}
-</ul>
-<form id="chatBoxForm">
-    <input type="text" id="chatBoxInput">
-</form>
+<h1 id="channelTitle">Channel {{ title }}</h1>
+<div id="chatMessages">
+  <div id="chat-window">
+    {% for message in chatRooms %}
+      <div class="alert alert-info">{{ message.displayName }}: {{ message.message }}</div>
+    {% endfor %}
+  </div>
+    <input type="text" id="chatBoxInput" placeholder="write a message" class="form-control">
+    <button id="chatBoxBtn" class="form-control">Send</button>
+</div>
 {% endblock %}
