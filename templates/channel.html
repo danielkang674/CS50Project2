@@ -14,7 +14,7 @@
 <div id="chatMessages">
   <div id="chat-window">
     {% for message in chatRooms %}
-      <div class="alert alert-info">{{ message.displayName }}: {{ message.message }}</div>
+      <div class="alert alert-info"><p class="timestamp">{{ message.timestamp }}</p><p class="message">{{ message.displayName }}: {{ message.message }}</p></div>
     {% endfor %}
   </div>
     <input type="text" id="chatBoxInput" placeholder="write a message" class="form-control">

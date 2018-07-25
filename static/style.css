@@ -19,3 +19,16 @@
 .alert{
   margin: 0 !important;
 }
+
+p.timestamp{
+  font-size: 0.5rem;
+  opacity: 0.5;
+}
+
+p{
+  margin: 0;
+}
+
+div.alert.alert-info{
+  padding: 0.3rem;
+}

@@ -36,7 +36,7 @@ def channel(room):
 
 @socketio.on("post message")
 def postMessage(data):
-    messageDict = {"message": data["message"], "displayName": data["displayName"]}
+    messageDict = {"message": data["message"], "displayName": data["displayName"], "timestamp": data["timestamp"]}
     chat[channelsList["current"]].append(messageDict)
     while len(chat[channelsList["current"]]) > 100:
         chat[channelsList["current"]].pop(0)

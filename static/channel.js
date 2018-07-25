@@ -34,7 +34,9 @@ document.addEventListener('DOMContentLoaded', ()=>{
       let $chatBoxBtn = document.querySelector('#chatBoxBtn');
       $chatBoxBtn.onclick = () =>{
         const message = $chatBoxInput.value;
-        socket.emit('post message', {"message": message, "displayName": displayName});
+        const timestamp = new Date().toString();
+        const endIndex = timestamp.indexOf('GMT');
+        socket.emit('post message', {"message": message, "displayName": displayName, "timestamp": timestamp.slice(4, endIndex)});
         $chatBoxInput.value = '';
       }
       $chatBoxInput.addEventListener('keyup', (event)=>{
@@ -46,18 +48,17 @@ document.addEventListener('DOMContentLoaded', ()=>{
         }
       });
 
-      // When disconnected
-      socket.on('disconnect', ()=>{
-        socket.emit('leave', {"displayName": displayName});
-      });
     });
 
-
+    // When disconnected
+    socket.on('disconnect', ()=>{
+      socket.emit('leave', {"displayName": displayName});
+    });
 
     // When a new message is posted, add to ul
     socket.on('all messages', data =>{
       const div = document.createElement('div');
-      div.innerHTML = `${data.displayName}: ${data.message}`;
+      div.innerHTML = `<p class="timestamp">${data.timestamp}</p><p class="message">${data.displayName}: ${data.message}</p>`;
       div.className = 'alert alert-info';
       document.querySelector('#chat-window').appendChild(div);
     });
