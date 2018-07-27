@@ -4,7 +4,6 @@ Web Programming with Python and JavaScript
 
 pip3 install -r requirements.txt
 
-Set the environment variable "FLASK_APP" to be "application.py". On a Mac or on Linux, the command to do this is export FLASK_APP=application.py. On Windows, the command is instead set FLASK_APP=application.py.
-Run flask run to start up your Flask application.
+Set the environment variable <code class="highlighter-rouge">FLASK_APP</code> to be <code class="highlighter-rouge">application.py</code>. On a Mac or on Linux, the command to do this is <code class="highlighter-rouge">export FLASK_APP=application.py</code>. On Windows, the command is instead <code class="highlighter-rouge">set FLASK_APP=application.py</code>.
 
-<code class="highlighter-rouge">application.py</code>
+Run <code class="highlighter-rouge">flask run</code> to start up your Flask application.
